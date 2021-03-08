@@ -1,7 +1,6 @@
 import Web3 from "web3";
 import AWSHttpProvider from "./aws-http-provider.js";
-const endpoint =
-  "https://nd-7czpujmx4jc65omg244xthw3sa.ethereum.managedblockchain.us-east-1.amazonaws.com";
+const endpoint = process.env.AMB_HTTP_ENDPOINT;
 const web3 = new Web3(new AWSHttpProvider(endpoint));
 
 web3.eth

@@ -2,10 +2,7 @@
 
 ## Concept: 
 
-We want to implement the design described in this research paper: https://arxiv.org/abs/2009.14021
-
-> “Decentralized exchanges (DEXs) allow parties to participate in financial markets while retaining full custody of their funds. However, the transparency of blockchain-based DEX in combination with the latency for transactions to be processed, makes market-manipulation feasible. For instance, adversaries could perform front-running -- the practice of exploiting (typically non-public) information that may change the price of an asset for financial gain. ”
-
+We want to implement the design described in this research paper: https://arxiv.org/abs/2009.1402
 
 ## Data Pipeline:
 
@@ -13,7 +10,33 @@ We want to implement the design described in this research paper: https://arxiv.
 2. Data processing: A script will iterate through all the pending transactions and look for those that interact with the [Uniswap contract](https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d). It will parse the transaction data and use the information there (target token, amount transferred, transaction fee, max slippage, etc.) to analyze if it’s profitable to initiate the attack. 
 3. The attack: Send two txns that sandwich the victim's txn
 
-## Setup:
+## System Design: 
+
+![System Design](design.png)
+
+## Milestones:
+
+Milestones are 1-2 week increments:
+1. Host a full geth node on an AWS EC2/Azure VM/AWS Managed Blockchain (AMB) and establish a websocket connection to a local script on the VM.  
+2. Write scripts to interact with a Gas API (there are multiple ones). 
+    1. We should also ask the bot to get new gas data periodically (30-60 minutes, we will try to tune it,) since gas prices fluctuate.  
+3. Compile a list of token addresses that we want to target. This will be a static list that lives in each VM. 
+    1. Google Cloud Platform and AWS have nice query languages and datasets to collect such a static list efficiently. This would be queried once every couple weeks to refresh the static list. 
+4. Write the code that gives us money predicts if this transaction tv will be profitable 
+    * Optional: it helps to read through Uniswap’s smart contract solidity code 
+    1. tv has to interact with the Uniswap router and sends ether to an address on that token list 
+    2. Decode transaction data under `input` with Uniswap application binary interface 
+    3. Now with all the data parsed and decoded, develop a strategy (eg. trading logic) and implement the strategy in code 
+    4. Write code for Wallet to efficiently submit transactions.  
+        1. There is a strategy here detailed in a few of the papers we looked at. 
+5. Set up node deployments so our blockchain clients can be distributed in multiple datacenters. 
+6. Set up a stream into a database from trading logic. 
+7. Write some straightforward analytics on our database. 
+8. If we have time at the end: write a frontend tool that tracks and visualizes all nodes and transactions, etc.  
+
+
+
+## AMB Setup:
 
 Currently, we have a full ethereum node hosted under [Amazon Managed Blockchain](https://console.aws.amazon.com/managedblockchain/home?region=us-east-1#firstRun) (AMB). Those .js scripts use Ethereum JSON-RPC API to interact with that node. We will update this README as we go (eg. add more nodes). 
 

@@ -2,7 +2,7 @@
 
 ## Concept: 
 
-We want to implement the design described in this research paper: https://arxiv.org/abs/2009.1402
+We want to implement the design described in this research paper: https://arxiv.org/abs/2009.14021
 
 ## Data Pipeline:
 

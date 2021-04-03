@@ -17,8 +17,8 @@ We want to implement the design described in this research paper: https://arxiv.
 ## Milestones:
 
 Milestones are 1-2 week increments:
-1. Host a full geth node on an AWS EC2/Azure VM/AWS Managed Blockchain (AMB) and establish a websocket connection to a local script on the VM.  
-2. Write scripts to interact with a Gas API (there are multiple ones). 
+1. ~~Host a full geth node on an AWS EC2/Azure VM/AWS Managed Blockchain (AMB) and establish a websocket connection to a local script on the VM.  
+2. ~~Write scripts to interact with a Gas API (there are multiple ones). 
     1. We should also ask the bot to get new gas data periodically (30-60 minutes, we will try to tune it,) since gas prices fluctuate.  
 3. Compile a list of token addresses that we want to target. This will be a static list that lives in each VM. 
     1. Google Cloud Platform and AWS have nice query languages and datasets to collect such a static list efficiently. This would be queried once every couple weeks to refresh the static list. 
